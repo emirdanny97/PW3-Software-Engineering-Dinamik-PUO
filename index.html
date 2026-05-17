@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kafeteria Dinamik@JKE, PUO</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-dark: #2d5016;
+    --green-mid: #4a7c2e;
+    --green-light: #7ab648;
+    --green-pale: #d4edba;
+    --cream: #faf7f0;
+    --warm-white: #ffffff;
+    --text-dark: #1a2e0a;
+    --text-mid: #3d5c1e;
+    --text-light: #6b8f4a;
+    --accent: #e8650a;
+    --accent-light: #fff0e6;
+    --shadow: 0 4px 24px rgba(45,80,22,0.10);
+    --shadow-lg: 0 12px 48px rgba(45,80,22,0.16);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .topbar {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 0 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .topbar-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    height: 64px;
+  }
+  .topbar-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.18rem;
+    color: var(--green-pale);
+    letter-spacing: 0.01em;
+  }
+  .topbar-logo span { color: var(--green-light); }
+  .nav-links { display: flex; gap: 4px; }
+  .nav-links a {
+    color: #cde8a8;
+    text-decoration: none;
+    font-size: 0.93rem;
+    font-weight: 500;
+    padding: 8px 18px;
+    border-radius: 6px;
+    transition: background 0.18s, color 0.18s;
+    cursor: pointer;
+    border: none;
+    background: none;
+  }
+  .nav-links a:hover, .nav-links a.active {
+    background: var(--green-mid);
+    color: #fff;
+  }
+
+  /* ── PAGES ── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── HERO ── */
+  .hero {
+    background: linear-gradient(135deg, var(--green-dark) 0%, var(--green-mid) 60%, var(--green-light) 100%);
+    color: #fff;
+    padding: 80px 32px 72px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px;
+    padding: 6px 20px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    line-height: 1.15;
+    margin-bottom: 16px;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.2);
+  }
+  .hero p {
+    font-size: 1.08rem;
+    opacity: 0.88;
+    max-width: 560px;
+    margin: 0 auto 36px;
+    line-height: 1.65;
+  }
+  .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .btn {
+    display: inline-block;
+    padding: 12px 28px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(232,101,10,0.35);
+  }
+  .btn-primary:hover { background: #c9540a; transform: translateY(-2px); }
+  .btn-outline {
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    border: 1.5px solid rgba(255,255,255,0.45);
+  }
+  .btn-outline:hover { background: rgba(255,255,255,0.22); transform: translateY(-2px); }
+
+  /* ── SECTION ── */
+  .section { max-width: 1100px; margin: 0 auto; padding: 56px 32px; }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.7rem;
+    color: var(--green-dark);
+    margin-bottom: 10px;
+  }
+  .section-sub {
+    color: var(--text-light);
+    font-size: 0.97rem;
+    margin-bottom: 36px;
+  }
+  .divider {
+    width: 48px; height: 4px;
+    background: var(--green-light);
+    border-radius: 2px;
+    margin-bottom: 36px;
+  }
+
+  /* ── CARDS ── */
+  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 22px; }
+  .card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px 26px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--green-pale);
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .card:hover { box-shadow: var(--shadow-lg); transform: translateY(-3px); }
+  .card-icon { font-size: 2rem; margin-bottom: 14px; }
+  .card h3 { font-size: 1.08rem; font-weight: 600; color: var(--green-dark); margin-bottom: 8px; }
+  .card p { font-size: 0.92rem; color: #555; line-height: 1.6; }
+
+  /* ── TARGET USERS ── */
+  .users-grid { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
+  .user-chip {
+    display: flex; align-items: center; gap: 10px;
+    background: #fff;
+    border: 1.5px solid var(--green-pale);
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 500;
+    font-size: 0.95rem;
+    box-shadow: 0 2px 8px rgba(74,124,46,0.08);
+  }
+  .user-chip .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green-light); }
+
+  /* ── MENU TABLE ── */
+  .menu-table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+  .menu-table th {
+    background: var(--green-dark); color: #fff;
+    padding: 14px 18px; text-align: left;
+    font-size: 0.9rem; font-weight: 600; letter-spacing: 0.04em;
+  }
+  .menu-table td { padding: 14px 18px; border-bottom: 1px solid #f0f4ec; font-size: 0.93rem; }
+  .menu-table tr:last-child td { border-bottom: none; }
+  .menu-table tr:hover td { background: #f7fbf2; }
+  .badge {
+    display: inline-block; padding: 3px 12px; border-radius: 999px;
+    font-size: 0.8rem; font-weight: 600;
+  }
+  .badge-food { background: #e8f5d8; color: var(--green-mid); }
+  .badge-drink { background: #ddf0ff; color: #1565c0; }
+  .badge-avail { background: #d4f4e2; color: #156b3a; }
+  .badge-unavail { background: #fde8e8; color: #b71c1c; }
+  .price { font-weight: 700; color: var(--accent); }
+
+  .menu-note {
+    margin-top: 20px;
+    background: var(--accent-light);
+    border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 14px 20px;
+    font-size: 0.93rem;
+    color: #7a3800;
+  }
+
+  /* ── ORDER FORM ── */
+  .form-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 40px 36px;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--green-pale);
+    max-width: 680px;
+    margin: 0 auto;
+  }
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-group label {
+    font-size: 0.85rem; font-weight: 600;
+    color: var(--green-dark); text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    border: 1.5px solid #d4e6bc;
+    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 0.95rem;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-dark);
+    background: var(--cream);
+    transition: border-color 0.18s, box-shadow 0.18s;
+    outline: none;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    border-color: var(--green-light);
+    box-shadow: 0 0 0 3px rgba(122,182,72,0.15);
+    background: #fff;
+  }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .btn-submit {
+    width: 100%; margin-top: 28px;
+    background: var(--green-dark); color: #fff;
+    border: none; border-radius: 10px; padding: 15px;
+    font-size: 1rem; font-weight: 700;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer; transition: background 0.2s, transform 0.15s;
+    letter-spacing: 0.03em;
+  }
+  .btn-submit:hover { background: var(--green-mid); transform: translateY(-2px); }
+  .form-note {
+    background: var(--green-pale);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 0.88rem;
+    color: var(--text-mid);
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  /* ── CONFIRMATION ── */
+  .confirm-box {
+    background: #fff;
+    border-radius: 20px;
+    padding: 56px 40px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--green-pale);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  .confirm-icon { font-size: 5rem; margin-bottom: 20px; animation: bounce 1s ease infinite alternate; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-8px); } }
+  .confirm-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--green-dark);
+    margin-bottom: 14px;
+  }
+  .confirm-box p { font-size: 1rem; color: #555; line-height: 1.7; max-width: 440px; margin: 0 auto 28px; }
+  .steps { display: flex; flex-direction: column; gap: 12px; text-align: left; margin: 24px 0; }
+  .step {
+    display: flex; align-items: flex-start; gap: 14px;
+    background: var(--cream); border-radius: 10px; padding: 14px 18px;
+    border: 1px solid var(--green-pale);
+  }
+  .step-num {
+    min-width: 28px; height: 28px; border-radius: 50%;
+    background: var(--green-light); color: #fff;
+    font-weight: 700; font-size: 0.88rem;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-text { font-size: 0.93rem; color: var(--text-dark); line-height: 1.5; }
+
+  /* ── PART A SECTION ── */
+  .parta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .parta-box {
+    background: #fff; border-radius: 12px; padding: 22px 24px;
+    box-shadow: var(--shadow); border-left: 4px solid var(--green-light);
+  }
+  .parta-box h4 { font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-light); margin-bottom: 10px; }
+  .parta-box p, .parta-box ul { font-size: 0.93rem; color: var(--text-dark); line-height: 1.65; }
+  .parta-box ul { padding-left: 18px; }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--green-dark); color: var(--green-pale);
+    text-align: center; padding: 28px 32px;
+    font-size: 0.88rem; margin-top: 48px;
+  }
+  .footer span { color: var(--green-light); }
+
+  /* ── PAGE HEADER BANNER ── */
+  .page-banner {
+    background: linear-gradient(90deg, var(--green-dark), var(--green-mid));
+    color: #fff; padding: 40px 32px 36px;
+  }
+  .page-banner-inner { max-width: 1100px; margin: 0 auto; }
+  .page-banner h1 { font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 6px; }
+  .page-banner p { opacity: 0.8; font-size: 0.95rem; }
+  .breadcrumb { font-size: 0.82rem; opacity: 0.6; margin-bottom: 10px; }
+
+  /* ── QUICK NAV CARDS ── */
+  .quicknav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-top: 8px;
+  }
+  .quicknav-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 32px 24px 26px;
+    box-shadow: var(--shadow);
+    border: 1.5px solid var(--green-pale);
+    text-align: center;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .quicknav-card:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-5px);
+    border-color: var(--green-light);
+  }
+  .quicknav-card .qn-icon { font-size: 2.6rem; margin-bottom: 14px; display: block; }
+  .quicknav-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--green-dark); margin-bottom: 8px; }
+  .quicknav-card p { font-size: 0.88rem; color: #666; line-height: 1.6; }
+  .quicknav-card .qn-arrow {
+    display: inline-block; margin-top: 16px;
+    background: var(--green-dark); color: #fff;
+    border-radius: 999px; padding: 5px 16px;
+    font-size: 0.82rem; font-weight: 600;
+    transition: background 0.18s;
+  }
+  .quicknav-card:hover .qn-arrow { background: var(--accent); }
+
+  /* ── ACCORDION ── */
+  .accordion-wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px 48px; }
+  .accordion-item {
+    background: #fff;
+    border-radius: 14px;
+    border: 1.5px solid var(--green-pale);
+    margin-bottom: 14px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .accordion-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 20px 26px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.18s;
+  }
+  .accordion-header:hover { background: #f4faea; }
+  .accordion-header-left { display: flex; align-items: center; gap: 14px; }
+  .accordion-header-left .acc-icon { font-size: 1.5rem; }
+  .accordion-header-left h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem; color: var(--green-dark); font-weight: 600;
+  }
+  .accordion-header-left p { font-size: 0.83rem; color: var(--text-light); margin-top: 2px; }
+  .accordion-chevron {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--green-pale); color: var(--green-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem; font-weight: 700;
+    transition: transform 0.3s, background 0.2s;
+    flex-shrink: 0;
+  }
+  .accordion-item.open .accordion-chevron {
+    transform: rotate(180deg);
+    background: var(--green-light);
+    color: #fff;
+  }
+  .accordion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s;
+    padding: 0 26px;
+  }
+  .accordion-item.open .accordion-body {
+    max-height: 1000px;
+    padding: 0 26px 26px;
+  }
+  .acc-label {
+    display: inline-block;
+    font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--green-light); font-weight: 700;
+    margin-bottom: 14px;
+    border-top: 2px solid var(--green-pale);
+    padding-top: 20px;
+    width: 100%;
+  }
+
+  @media (max-width: 640px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .parta-grid { grid-template-columns: 1fr; }
+    .topbar-inner { padding: 0 16px; }
+    .nav-links a { padding: 8px 10px; font-size: 0.85rem; }
+    .accordion-wrap { padding: 0 16px 48px; }
+    .quicknav-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAVIGATION -->
+<nav class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-logo">☕ Kafeteria <span>Dinamik</span>@JKE</div>
+    <div class="nav-links">
+      <a onclick="showPage('home')" id="nav-home" class="active">🏠 Home</a>
+      <a onclick="showPage('menu')" id="nav-menu">🍛 Menu</a>
+      <a onclick="showPage('order')" id="nav-order">📋 Order Form</a>
+      <a onclick="showPage('result')" id="nav-result">✅ Result</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 1 — HOME
+══════════════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">🎓 Kafeteria Ordering System · Politeknik Ungku Omar</div>
+    <h1>Welcome to<br>Kafeteria Dinamik@JKE, PUO</h1>
+    <p>A smart, simple frontend prototype that helps customers view the cafeteria menu, submit food orders, and receive order confirmation — all in one place.</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="showPage('menu')">🍛 Browse Menu</button>
+      <button class="btn btn-outline" onclick="showPage('order')">📋 Place an Order</button>
+    </div>
+  </div>
+
+  <!-- Quick Navigation Cards -->
+  <div class="section" style="padding-bottom: 32px;">
+    <h2 class="section-title">What would you like to do?</h2>
+    <div class="divider"></div>
+    <div class="quicknav-grid">
+      <a class="quicknav-card" onclick="showPage('menu')">
+        <span class="qn-icon">🍛</span>
+        <h3>Browse Menu</h3>
+        <p>View today's food and drink items, prices, and availability before ordering.</p>
+        <span class="qn-arrow">Go to Menu →</span>
+      </a>
+      <a class="quicknav-card" onclick="showPage('order')">
+        <span class="qn-icon">📋</span>
+        <h3>Place an Order</h3>
+        <p>Fill in the order form with your name, chosen items, quantity, and payment preference.</p>
+        <span class="qn-arrow">Order Now →</span>
+      </a>
+      <a class="quicknav-card" onclick="showPage('result')">
+        <span class="qn-icon">✅</span>
+        <h3>Check Confirmation</h3>
+        <p>View your order confirmation and find out when to collect your food at the counter.</p>
+        <span class="qn-arrow">View Result →</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- About This System -->
+  <div style="background: var(--green-pale); padding: 0;">
+    <div class="section">
+      <h2 class="section-title">About This System</h2>
+      <div class="divider"></div>
+      <div class="cards">
+        <div class="card">
+          <div class="card-icon">🍽️</div>
+          <h3>View the Menu</h3>
+          <p>Browse food and drink items with clear pricing, category labels, and availability status before placing your order.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">📝</div>
+          <h3>Submit Your Order</h3>
+          <p>Fill in a simple order form with your name, selected items, quantity, preferred payment method, and pickup time.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">✅</div>
+          <h3>Get Confirmation</h3>
+          <p>Receive a clear confirmation message after submitting your order. Know when to collect your food at the counter.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── COLLAPSIBLE ACCORDIONS ── -->
+  <div class="accordion-wrap" style="padding-top: 40px;">
+
+    <!-- Accordion 1: System Analysis Summary -->
+    <div class="accordion-item" id="acc-analysis">
+      <div class="accordion-header" onclick="toggleAccordion('acc-analysis')">
+        <div class="accordion-header-left">
+          <span class="acc-icon">📊</span>
+          <div>
+            <h3>System Analysis Summary</h3>
+            <p>Part A — Lab 1 &amp; Lab 2 review: purpose, actors, functions, and pages</p>
+          </div>
+        </div>
+        <div class="accordion-chevron">▼</div>
+      </div>
+      <div class="accordion-body">
+        <span class="acc-label">PART A — Lab 1 &amp; Lab 2 Review</span>
+        <div class="parta-grid">
+          <div class="parta-box">
+            <h4>📌 Main Purpose of the System</h4>
+            <p>The Kafeteria Dinamik@JKE ordering system aims to replace manual paper-based ordering by providing a digital interface where customers can browse the menu, submit food orders, and receive confirmation — improving efficiency for cafeteria staff and a better experience for customers.</p>
+          </div>
+          <div class="parta-box">
+            <h4>👥 Main Actors / Users (from Lab 2)</h4>
+            <ul>
+              <li><strong>Customer</strong> — browses menu, places order, views confirmation</li>
+              <li><strong>Cafeteria Staff</strong> — receives and processes orders</li>
+              <li><strong>Admin</strong> — manages menu items and system settings</li>
+            </ul>
+          </div>
+          <div class="parta-box">
+            <h4>⚙️ Main Functions (Use Cases from Lab 2)</h4>
+            <ul>
+              <li>Browse Menu (view food items, prices, availability)</li>
+              <li>Place Order (submit customer name, items, quantity)</li>
+              <li>Select Payment Method</li>
+              <li>Receive Order Confirmation</li>
+              <li>Manage Menu (Admin)</li>
+            </ul>
+          </div>
+          <div class="parta-box">
+            <h4>📄 Pages Required for Frontend Prototype</h4>
+            <ul>
+              <li><strong>Home</strong> — system introduction &amp; navigation</li>
+              <li><strong>Menu</strong> — display food &amp; drink items with details</li>
+              <li><strong>Order Form</strong> — customer order input form</li>
+              <li><strong>Result / Information</strong> — order confirmation page</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Accordion 2: Target Users -->
+    <div class="accordion-item" id="acc-users">
+      <div class="accordion-header" onclick="toggleAccordion('acc-users')">
+        <div class="accordion-header-left">
+          <span class="acc-icon">👥</span>
+          <div>
+            <h3>Target Users</h3>
+            <p>Who is this system designed for?</p>
+          </div>
+        </div>
+        <div class="accordion-chevron">▼</div>
+      </div>
+      <div class="accordion-body">
+        <span class="acc-label">USER GROUPS FROM LAB 2 USE CASE DIAGRAM</span>
+        <div class="users-grid" style="margin-bottom: 20px;">
+          <div class="user-chip"><div class="dot"></div>👨‍🎓 Customer (Student / Lecturer)</div>
+          <div class="user-chip"><div class="dot"></div>👩‍🍳 Cafeteria Staff</div>
+          <div class="user-chip"><div class="dot"></div>🧑‍💼 Admin / System Manager</div>
+        </div>
+        <div class="parta-grid">
+          <div class="parta-box">
+            <h4>👨‍🎓 Customer</h4>
+            <p>Students and lecturers who visit the cafeteria. They browse the menu, place food orders, select payment method, and receive order confirmation through the system interface.</p>
+          </div>
+          <div class="parta-box">
+            <h4>👩‍🍳 Cafeteria Staff</h4>
+            <p>Staff members who receive incoming orders and prepare food. They view submitted orders and update availability status of menu items when items run out.</p>
+          </div>
+          <div class="parta-box" style="grid-column: 1 / -1;">
+            <h4>🧑‍💼 Admin / System Manager</h4>
+            <p>The administrator manages the menu list, user accounts, and system settings. The Admin role supports the overall function of the cafeteria system and ensures data accuracy. This frontend prototype supports all three user groups identified in the use case diagram from Lab 2. The interface is designed to be simple, readable, and self-explanatory for first-time users.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end accordion-wrap -->
+
+</div><!-- end page-home -->
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 2 — MENU
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-menu">
+  <div class="page-banner">
+    <div class="page-banner-inner">
+      <div class="breadcrumb">🏠 Home › Menu</div>
+      <h1>🍛 Menu List</h1>
+      <p>Browse our available food and drink items with prices and availability status.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Today's Menu</h2>
+    <p class="section-sub">All prices are in Malaysian Ringgit (RM). Availability is updated daily by cafeteria staff.</p>
+    <div class="divider"></div>
+
+    <table class="menu-table">
+      <thead>
+        <tr>
+          <th>No.</th>
+          <th>Menu Item</th>
+          <th>Category</th>
+          <th>Price (RM)</th>
+          <th>Availability</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>Nasi Lemak</strong><br><span style="font-size:0.82rem;color:#888;">Coconut rice with sambal, egg & anchovies</span></td>
+          <td><span class="badge badge-food">Food</span></td>
+          <td class="price">RM 3.50</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>Mee Goreng</strong><br><span style="font-size:0.82rem;color:#888;">Spicy stir-fried noodles with vegetables</span></td>
+          <td><span class="badge badge-food">Food</span></td>
+          <td class="price">RM 4.00</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>Roti Canai</strong><br><span style="font-size:0.82rem;color:#888;">Flaky flatbread served with dhal curry</span></td>
+          <td><span class="badge badge-food">Food</span></td>
+          <td class="price">RM 1.50</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>Nasi Goreng Ayam</strong><br><span style="font-size:0.82rem;color:#888;">Chicken fried rice with egg</span></td>
+          <td><span class="badge badge-food">Food</span></td>
+          <td class="price">RM 5.00</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td><strong>Kuih Lapis</strong><br><span style="font-size:0.82rem;color:#888;">Layered traditional Malaysian cake</span></td>
+          <td><span class="badge badge-food">Food</span></td>
+          <td class="price">RM 1.20</td>
+          <td><span class="badge badge-unavail">✘ Sold Out</span></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td><strong>Teh Ais</strong><br><span style="font-size:0.82rem;color:#888;">Chilled Malaysian milk tea</span></td>
+          <td><span class="badge badge-drink">Drink</span></td>
+          <td class="price">RM 2.00</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td><strong>Mineral Water</strong><br><span style="font-size:0.82rem;color:#888;">500ml bottled mineral water</span></td>
+          <td><span class="badge badge-drink">Drink</span></td>
+          <td class="price">RM 1.20</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td><strong>Milo Ais</strong><br><span style="font-size:0.82rem;color:#888;">Chilled chocolate malt drink</span></td>
+          <td><span class="badge badge-drink">Drink</span></td>
+          <td class="price">RM 2.50</td>
+          <td><span class="badge badge-avail">✔ Available</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="menu-note">
+      ℹ️ <strong>Ready to order?</strong> After choosing your item(s), please proceed to the <strong>Order Form</strong> page to submit your order details.
+      <span style="margin-left:10px;">
+        <button class="btn btn-primary" style="padding:7px 18px;font-size:0.88rem;" onclick="showPage('order')">Go to Order Form →</button>
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 3 — ORDER FORM
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-order">
+  <div class="page-banner">
+    <div class="page-banner-inner">
+      <div class="breadcrumb">🏠 Home › Order Form</div>
+      <h1>📋 Order Form</h1>
+      <p>Fill in all required fields below to submit your cafeteria order.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="form-card">
+      <h2 class="section-title" style="margin-bottom:4px;">Place Your Order</h2>
+      <p style="color:#888;font-size:0.9rem;margin-bottom:28px;">All fields marked with <span style="color:red;">*</span> are required.</p>
+
+      <div class="form-grid">
+        <!-- Field 1: Customer Name -->
+        <div class="form-group">
+          <label>👤 Customer Name <span style="color:red;">*</span></label>
+          <input type="text" placeholder="e.g. Ahmad bin Ali">
+        </div>
+
+        <!-- Field 2: Matric / Phone -->
+        <div class="form-group">
+          <label>🪪 Matric No. / Phone <span style="color:red;">*</span></label>
+          <input type="text" placeholder="e.g. 23-02-1234 / 0123456789">
+        </div>
+
+        <!-- Field 3: Menu Item -->
+        <div class="form-group">
+          <label>🍽️ Menu Item <span style="color:red;">*</span></label>
+          <select>
+            <option value="">— Select item —</option>
+            <option>Nasi Lemak — RM 3.50</option>
+            <option>Mee Goreng — RM 4.00</option>
+            <option>Roti Canai — RM 1.50</option>
+            <option>Nasi Goreng Ayam — RM 5.00</option>
+            <option>Teh Ais — RM 2.00</option>
+            <option>Mineral Water — RM 1.20</option>
+            <option>Milo Ais — RM 2.50</option>
+          </select>
+        </div>
+
+        <!-- Field 4: Quantity -->
+        <div class="form-group">
+          <label>🔢 Quantity <span style="color:red;">*</span></label>
+          <input type="number" placeholder="e.g. 2" min="1" max="10">
+        </div>
+
+        <!-- Field 5: Payment Method -->
+        <div class="form-group">
+          <label>💳 Payment Method <span style="color:red;">*</span></label>
+          <select>
+            <option value="">— Select payment —</option>
+            <option>Cash</option>
+            <option>QR Code (DuitNow)</option>
+            <option>Online Transfer</option>
+          </select>
+        </div>
+
+        <!-- Field 6: Pickup Time -->
+        <div class="form-group">
+          <label>⏰ Preferred Pickup Time</label>
+          <input type="time" value="12:00">
+        </div>
+
+        <!-- Field 7: Notes -->
+        <div class="form-group full">
+          <label>📝 Additional Notes / Special Request</label>
+          <textarea placeholder="e.g. Less spicy, no onion, extra sambal..."></textarea>
+        </div>
+      </div>
+
+      <!-- Field 7: Submit -->
+      <button class="btn-submit" onclick="showPage('result')">
+        ✅ Submit Order
+      </button>
+
+      <div class="form-note">
+        ⚠️ This is a frontend prototype. Your order information will not be saved to a database at this stage. Database integration will be completed in Lab 4 (Google Sheets) and Lab 5 (Apps Script).
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     PAGE 4 — RESULT / INFORMATION
+══════════════════════════════════════════════════ -->
+<div class="page" id="page-result">
+  <div class="page-banner">
+    <div class="page-banner-inner">
+      <div class="breadcrumb">🏠 Home › Result / Information</div>
+      <h1>✅ Order Confirmation</h1>
+      <p>Your order information has been received successfully.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="confirm-box">
+      <div class="confirm-icon">🎉</div>
+      <h2>Thank You for Your Order!</h2>
+      <p>Your order information has been submitted successfully. Please wait for the cafeteria staff to prepare your order. You may collect your food at the cafeteria counter when it is ready.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-text"><strong>Order Received</strong> — Your details have been recorded by the system.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-text"><strong>Preparation</strong> — Cafeteria staff is now preparing your order.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-text"><strong>Collection</strong> — Proceed to the cafeteria counter at your selected pickup time to collect your food.</div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-text"><strong>Payment</strong> — Complete your payment at the counter via Cash, QR Code, or Online Transfer.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:8px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="showPage('home')">🏠 Back to Home</button>
+        <button class="btn btn-outline" style="background:var(--green-pale);color:var(--green-dark);border:1.5px solid var(--green-light);" onclick="showPage('order')">📋 New Order</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  Kafeteria Dinamik@JKE, PUO · <span>BETX0323 Software Engineering</span> · Lab 3: Frontend Development · Session II 2025/2026<br>
+  <span style="opacity:0.5;font-size:0.8rem;">Prepared using Google Sites Prototype · Lecturer: Muhamad Zaki bin Abdul Rahman</span>
+</div>
+
+<script>
+  function showPage(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    document.querySelectorAll('.nav-links a').forEach(a => a.classList.remove('active'));
+    document.getElementById('nav-' + id).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function toggleAccordion(id) {
+    const item = document.getElementById(id);
+    const isOpen = item.classList.contains('open');
+    // close all first
+    document.querySelectorAll('.accordion-item').forEach(el => el.classList.remove('open'));
+    // open clicked one if it was closed
+    if (!isOpen) item.classList.add('open');
+  }
+</script>
+</body>
+</html>
