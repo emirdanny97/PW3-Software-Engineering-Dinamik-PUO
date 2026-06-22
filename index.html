@@ -717,93 +717,28 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════════════════
-     PAGE 3 — ORDER FORM
-══════════════════════════════════════════════════ -->
+<!-- PAGE 3 — ORDER FORM -->
 <div class="page" id="page-order">
   <div class="page-banner">
     <div class="page-banner-inner">
       <div class="breadcrumb">🏠 Home › Order Form</div>
       <h1>📋 Order Form</h1>
-      <p>Fill in all required fields below to submit your cafeteria order.</p>
+      <p>Fill in all required fields to submit your cafeteria order.</p>
     </div>
   </div>
 
   <div class="section">
-    <div class="form-card">
-      <h2 class="section-title" style="margin-bottom:4px;">Place Your Order</h2>
-      <p style="color:#888;font-size:0.9rem;margin-bottom:28px;">All fields marked with <span style="color:red;">*</span> are required.</p>
+    
+    <!-- ✅ EMBED APPS SCRIPT FORM (REAL FORM) -->
+    <iframe 
+      src="https://script.google.com/macros/s/AKfycbxHMlJQgw2JjvzZ0bkjT_9"
+      width="100%" 
+      height="750px"
+      style="border:none; border-radius:12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+    </iframe>
 
-      <div class="form-grid">
-        <!-- Field 1: Customer Name -->
-        <div class="form-group">
-          <label>👤 Customer Name <span style="color:red;">*</span></label>
-          <input type="text" placeholder="e.g. Ahmad bin Ali">
-        </div>
-
-        <!-- Field 2: Matric / Phone -->
-        <div class="form-group">
-          <label>🪪 Matric No. / Phone <span style="color:red;">*</span></label>
-          <input type="text" placeholder="e.g. 23-02-1234 / 0123456789">
-        </div>
-
-        <!-- Field 3: Menu Item -->
-        <div class="form-group">
-          <label>🍽️ Menu Item <span style="color:red;">*</span></label>
-          <select>
-            <option value="">— Select item —</option>
-            <option>Nasi Lemak — RM 3.50</option>
-            <option>Mee Goreng — RM 4.00</option>
-            <option>Roti Canai — RM 1.50</option>
-            <option>Nasi Goreng Ayam — RM 5.00</option>
-            <option>Teh Ais — RM 2.00</option>
-            <option>Mineral Water — RM 1.20</option>
-            <option>Milo Ais — RM 2.50</option>
-          </select>
-        </div>
-
-        <!-- Field 4: Quantity -->
-        <div class="form-group">
-          <label>🔢 Quantity <span style="color:red;">*</span></label>
-          <input type="number" placeholder="e.g. 2" min="1" max="10">
-        </div>
-
-        <!-- Field 5: Payment Method -->
-        <div class="form-group">
-          <label>💳 Payment Method <span style="color:red;">*</span></label>
-          <select>
-            <option value="">— Select payment —</option>
-            <option>Cash</option>
-            <option>QR Code (DuitNow)</option>
-            <option>Online Transfer</option>
-          </select>
-        </div>
-
-        <!-- Field 6: Pickup Time -->
-        <div class="form-group">
-          <label>⏰ Preferred Pickup Time</label>
-          <input type="time" value="12:00">
-        </div>
-
-        <!-- Field 7: Notes -->
-        <div class="form-group full">
-          <label>📝 Additional Notes / Special Request</label>
-          <textarea placeholder="e.g. Less spicy, no onion, extra sambal..."></textarea>
-        </div>
-      </div>
-
-      <!-- Field 7: Submit -->
-      <button class="btn-submit" onclick="showPage('result')">
-        ✅ Submit Order
-      </button>
-
-      <div class="form-note">
-        ⚠️ This is a frontend prototype. Your order information will not be saved to a database at this stage. Database integration will be completed in Lab 4 (Google Sheets) and Lab 5 (Apps Script).
-      </div>
-    </div>
   </div>
 </div>
-
 <!-- ══════════════════════════════════════════════════
      PAGE 4 — RESULT / INFORMATION
 ══════════════════════════════════════════════════ -->
